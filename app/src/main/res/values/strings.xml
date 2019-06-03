@@ -7,4 +7,10 @@
     <string name="iniciar">Iniciar</string>
     <string name="fecha">Fecha</string>
     <string name="hora">Hora</string>
+    <string name="text_team_a">Team A</string>
+    <string name="action_3_points">+3 POINTS</string>
+    <string name="action_2_points">+2 POINTS</string>
+    <string name="action_free_throw">FREE THROW</string>
+    <string name="text_team_b">Team B</string>
+    <string name="action_guardar">guardar</string>
 </resources>
