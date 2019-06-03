@@ -16,7 +16,9 @@ data class Play(
     @ColumnInfo(name = "PuntosB")
     val PuntosEquipoB: Int,
     @ColumnInfo(name = "Fecha")
-    val Fecha: Date
+    val Fecha: String,
+    @ColumnInfo(name = "Hora")
+    val Hora: String
 ){
     @PrimaryKey(autoGenerate = true)
     var Id_Play: Int = 0
