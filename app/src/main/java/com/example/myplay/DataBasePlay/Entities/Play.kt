@@ -3,7 +3,6 @@ package com.example.myplay.DataBasePlay.Entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "Play")
 data class Play(

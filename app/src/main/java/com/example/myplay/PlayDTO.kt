@@ -2,7 +2,6 @@ package com.example.myplay
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.sql.Date
 
 class PlayDTO (
     val equipoA:String = "N/A",
