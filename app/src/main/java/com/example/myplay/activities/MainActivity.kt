@@ -3,13 +3,14 @@ package com.example.myplay.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu
-import android.view.MenuItem
+import androidx.lifecycle.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myplay.DataBasePlay.Entities.Play
+import com.example.myplay.PlayAdapter.PlayAdapter
+import com.example.myplay.PlayDTO
 import com.example.myplay.PlayViewModel.PlayViewModel
 import com.example.myplay.R
 
@@ -23,11 +24,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        partidoViewModel = ViewModelProviders.of(this).get(PartidoViewModel::class.java)
+        playViewModel = ViewModelProviders.of(this).get(PlayViewModel::class.java)
 
-        val partidos: LiveData<List<Partido>> = partidoViewModel.getAllPartidos()
+        val play: LiveData<List<Play>> = playViewModel.getAllPlay()
 
-        val partidoObserver = Observer<List<Partido>>{ lista ->
+        val playObserver = Observer<List<Play>>{ lista ->
             if(lista.size > 0){
                 setUpView(getDTOList(lista))
             }else{
@@ -35,50 +36,50 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        partidos.observe(this,partidoObserver)
+        play.observe(this,playObserver)
 
         fab.setOnClickListener { view ->
-            val intent = Intent(this@MainActivity, NewPartidoActivity::class.java)
-            startActivityForResult(intent, newPartidoActivityRequestCode)
+            val intent = Intent(this@MainActivity, NewPlayActivity::class.java)
+            startActivityForResult(intent, newPlayActivityRequestCode)
         }
     }
 
-    fun getDTOList(partidos: List<Partido>): ArrayList<PartidoDTO>{
-        val partidoDTOList = ArrayList<PartidoDTO>()
+    fun getDTOList(partidos: List<Play>): ArrayList<PlayDTO>{
+        val playDTOList = ArrayList<PlayDTO>()
 
         for(i in partidos){
-            partidoDTOList.add(PartidoDTO(i.EquipoA,i.EquipoB,i.PuntosEquipoA,i.PuntosEquipoB))
+            playDTOList.add(PlayDTO(i.EquipoA,i.EquipoB,i.PuntosEquipoA,i.PuntosEquipoB,i.Fecha,i.Hora))
         }
 
-        return partidoDTOList
+        return playDTOList
     }
 
-    fun setUpView(partido: ArrayList<PartidoDTO>){
+    fun setUpView(play: ArrayList<PlayDTO>){
 
         var viewManager = LinearLayoutManager(this)
 
-        lateinit var viewAdapter: PartidoAdapter
+        lateinit var viewAdapter: PlayAdapter
 
-        viewAdapter = PartidoAdapter(this,{ partidoItem: PartidoDTO -> itemClickedPortrait(partidoItem)})
+        viewAdapter = PlayAdapter(this,{ playItem: PlayDTO -> itemClickedPortrait(playItem)})
 
-        viewAdapter.setPartido(partido)
+        viewAdapter.setPlay(play)
 
-        partido_rv.apply {
+        play_rv.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }
     }
 
-    fun itemClickedPortrait(partido: PartidoDTO){
+    fun itemClickedPortrait(play: PlayDTO){
 
-        val partidoBundle = Bundle()
-        partidoBundle.putParcelable("partido",partido)
+        val playBundle = Bundle()
+        playBundle.putParcelable("play",play)
 
-        startActivity(Intent(this, PartidoDetailActivity::class.java).putExtras(partidoBundle))
+        startActivity(Intent(this, PlayDetailActivity::class.java).putExtras(playBundle))
     }
 
     companion object {
-        const val newPartidoActivityRequestCode = 1
+        const val newPlayActivityRequestCode = 1
     }
 }
