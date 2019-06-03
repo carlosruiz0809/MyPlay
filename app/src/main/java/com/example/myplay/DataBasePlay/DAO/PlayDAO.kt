@@ -13,7 +13,7 @@ interface PlayDAO {
     fun getAllPlay(): LiveData<List<Play>>
 
     @Insert
-    suspend fun insertPartido(play: Play)
+    suspend fun insertPlay(play:Play)
 
     @Query("DELETE FROM Play")
     fun deleteAllPlay()
